@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0070f3">
+    <meta name="description" content="Welcome to XD group that specializes in finding">
+    <title>XD Group</title>
+    <script src="tailwind-3.4.16.js"></script>
+    <script src="js/tailwind.config.js"></script>
+    <link rel="stylesheet" href="css/fontawesome.css">
+    <style type="text/tailwindcss">
+
+        @font-face {
+            font-family: 'Inter';
+            src: url('../fonts/inter.ttf');
+        }
+
+        @layer base{
+            html {
+                scroll-behavior: smooth;
+            }
+
+            body {
+                @apply antialiased;
+            }
+        }
+
+        @layer components {
+            .container {
+                @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+            }
+        }
+
+        @layer utilities {
+            .transition-all {
+                transition-property: all;
+                transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+                transition-duration: 300ms;
+            }
+            
+            .transition-transform {
+                transition-property: transform;
+                transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+                transition-duration: 300ms;
+            }
+            
+            .transition-colors {
+                transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+                transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+                transition-duration: 300ms;
+            }
+        }
+
+        @keyframes morph {
+            0% {
+                border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            }
+            50% {
+                border-radius: 30% 70% 70% 40% / 50% 60% 30% 60%;
+            }
+            100% {
+                border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            }
+        }
+
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .animate-morph {
+            animation: morph 8s ease-in-out infinite;
+        }
+
+        .animate-blink {
+            animation: blink 1s step-end infinite;
+        }
+
+        .opacity-0 {
+            opacity: 0;
+        }
+
+        .translate-y-4 {
+            transform: translateY(1rem);
+        }
+
+        .transition-all {
+            transition-property: all;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        section {
+            transition-property: opacity, transform;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 500ms;
+        }
+
+
+
+    </style>
+</head>
+<body class="font-sans text-gray-900 dark:text-white bg-white dark:bg-dark-background transition-colors duration-300">
+    <!-- Dark mode -->
+    <div class="fixed inset-0 -z-10 opacity-0 dark:opacity-100 transition-opacity duration-500 pointer-events-none">
+        <div class="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary/10">
+
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header
+        class="fixed w-full top-0 z-50 bg-white/95 dark:bg-dark-background/95 backdrop-blur-sm shadow-sm transition-all duration-300">
+        <div class="container mx-auto px-4">
+            <nav class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <span class="text-xl font-extrabold">XD Group</span>
+                    <span class="text-primary text-3xl ml-1">•</span>
+                </div>
+                <ul class="hidden md:flex space-x-8">
+                    <li>
+                        <a href="#features"
+                            class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors">Showcase</a>
+                    </li>
+                    <li>
+                        <a href="#about"
+                            class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors">About</a>
+                    </li>
+                    <li>
+                        <a href="#top"
+                            class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors">Top</a>
+                    </li>
+                    <li>
+                        <a href="#projects"
+                            class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors">Projects</a>
+                    </li>
+                    <li>
+                        <a href="#contact"
+                            class="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors">Contact</a>
+                    </li>
+                </ul>
+                <div class="flex items-center space-x-4">
+                    <button id="themeToggle">
+                        <i class="fa-solid fa-moon text-gray-600 dark:text-gray-400"></i>
+                    </button>
+                    <button class="md:hidden p-2" id="menuToggle">
+                        <div class="w-6 h-5 flex flex-col justify-between">
+                            <span class="w-full h-0.5 bg-gray-600 dark:bg-gray-400 transition-all"></span>
+                            <span class="w-full h-0.5 bg-gray-600 dark:bg-gray-400 transition-all"></span>
+                            <span class="w-full h-0.5 bg-gray-600 dark:bg-gray-400 transition-all"></span>
+                        </div>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu"
+        class="fixed inset-0 bg-white dark:bg-dark-background z-50 transform translate-x-full transition-transform duration-300 md:hidden">
+        <div class="container mx-auto px-4 h-full flex flex-col">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <span class="text-xl font-extrabold">XD</span>
+                    <span class="text-primary text-3xl ml-1">•</span>
+                </div>
+                <button id="closeMenu" class="p-2">
+                    <i class="fa-solid fa-square-xmark text-gray-600 dark:text-gray-400 text-2xl"></i>
+                </button>
+            </div>
+            <ul class="flex-1 flex flex-col justify-center items-center space-y-8">
+                <li>
+                    <a href="#features"
+                        class="text-2xl text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors">Showcase</a>
+                </li>
+                <li>
+                    <a href="#about"
+                        class="text-2xl text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors">About</a>
+                </li>
+                <li>
+                    <a href="#top"
+                        class="text-2xl text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors">Top</a>
+                </li>
+                <li>
+                    <a href="#projects"
+                        class="text-2xl text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors">Projects</a>
+                </li>
+                <li>
+                    <a href="#contact"
+                        class="text-2xl text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <section id="hero" class="min-h-screen flex items-center pt-20 pb-16 relative overflow-hidden">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                    Welcome to XD group. Group that specializes in finding
+                    <span
+                        class="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">talanted</span>
+                    and <span
+                        class="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">intelligent
+                        individuals</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-400 mb-8">
+                You can apply through our social media channels or search for our social media channels that provide information about the community.
+                <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+                    <a href="#projects"
+                        class="px-8 py-3 bg-primary text-white rounded-lg shadow-lg hover:bg-blue-600 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-blue-300/30 dark:hover:shadow-blue-500/20 shadow-blue-200/20 dark:shadow-blue-700/10">
+                        View top
+                    </a>
+                    <a href="#about"
+                        class="px-8 py-3 bg-white dark:bg-dark-background-secondary text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 rounded-lg hover:border-gray-900 dark:hover:border-white transition-colors">Learn More</a>
+                </div>
+                <div class="bg-gray-100 dark:bg-dark-background-secondary rounded-lg overflow-hidden shadow-lg max-w-2xl mx-auto"
+                    id="terminal-container">
+                    <div class="flex items-center space-x-2 p-3 bg-gray-200 dark:bg-dark-background">
+                        <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                        <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+                        <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                    </div>
+                    <div class="p-6 font-mono terminal-content">
+                        <span class="text-green-500">$</span> <span
+                            class="command-text text-gray-900 dark:text-white"></span>
+                    </div>
+                     <div class="relative">
+                    <div
+                        class="w-72 h-72 mx-auto animate-morph bg-gradient-to-br from-primary via-secondary to-accent rounded-full relative overflow-hidden">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-primary/50 via-secondary/50 to-accent/50 rounded-full blur-2xl animate-morph">
+                        </div>
+                        <img src="img/profile_photo1.jpg" alt="Profile Photo"
+                            class="absolute inset-0 w-full h-full object-cover z-10">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features"
+        class="py-24 bg-gray-50 dark:bg-dark-background-secondary translate-y-4 transition-all duration-500 opacity-0">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Outstanding participants:</h2>
+            <p class="text-xl text-gray-600 dark:text-gray-400 text-center mb-16">
+                Participants who surpassed many standards of outstanding intelligence:
+            </p>
+
+</div>
+                        <img src="img/chess.png.png" alt="Profile Photo"
+                            class="absolute inset-0 w-full h-full object-cover z-10">
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6">About Me</h2>
+                    <p class="text-xl text-gray-600 dark:text-gray-400 mb-6">
+                        I'm a frontend developer focused on crafting clean & user-friendly experiences.
+                    </p>
+                    <p class="text-gray-600 dark:text-gray-400 mb-6">
+                        I build responsive websites that are fast, easy to use, and follow best coding practices. My
+                        expertise includes HTML, CSS, JavaScript, and modern frameworks to create dynamic, engaging
+                        interfaces with clean, optimized code.
+                    </p>
+                    <p class="text-gray-600 dark:text-gray-400 mb-8">When I'm not coding, you can find me exploring new
+                        technologies, contributing to open-source projects, or enjoying a good book.</p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#contact"
+                            class="px-8 py-3 bg-primary text-white rounded-lg shadow-lg hover:bg-blue-600 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-blue-300/30 dark:hover:shadow-blue-500/20 shadow-blue-200/20 dark:shadow-blue-700/10 text-center">Contact
+                            Me</a>
+                        <a href="#"
+                            class="px-8 py-3 bg-white dark:bg-dark-background-secondary text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 rounded-lg hover:border-gray-900 dark:hover:border-white transition-colors text-center">Download
+                            Resume</a>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div
+                        class="w-72 h-72 mx-auto animate-morph bg-gradient-to-br from-primary via-secondary to-accent rounded-full relative overflow-hidden">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-primary/50 via-secondary/50 to-accent/50 rounded-full blur-2xl animate-morph">
+                        </div>
+                        <img src="img/profile_photo.jpg" alt="Profile Photo"
+                            class="absolute inset-0 w-full h-full object-cover z-10">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About this member: -->
+    <section id="About this member:"
+        class="py-24 bg-gray-50 dark:bg-dark-background-secondary translate-y-4 transition-all duration-500 opacity-0">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">About this member:</h2>
+            <p class="text-xl text-gray-600 dark:text-gray-400 text-center mb-16">
+                Our first participant is a dual citizen and lives in the CIS countries. He is the number 1 ranked rapid chess player in Turkey and Turkmenistan on the official chess platform chess.com. This participant is fluent in 5 languages, not including the programming languages he knows. By the way, this participant has also edited this website.
+          this section lists the programming languages he is fluent in.  </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white dark:bg-dark-background p-8 rounded-lg shadow-lg">
+                    <div class="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center mb-6">
+                        <i class="fa-brands fa-html5 text-red-500 text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">HTML5</h3>
+                    <div class="w-full h-2 bg-gray-200 dark:bg-dark-background rounded-full overflow-hidden">
+                        <div class="w-[95%] h-full bg-gradient-to-r from-primary to-secondary rounded-full"></div>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-dark-background p-8 rounded-lg shadow-lg">
+                    <div class="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center mb-6">
+                        <i class="fa-brands fa-css3 text-blue-500 text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">CSS3</h3>
+                    <div class="w-full h-2 bg-gray-200 dark:bg-dark-background rounded-full overflow-hidden">
+                        <div class="w-[90%] h-full bg-gradient-to-r from-primary to-secondary rounded-full"></div>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-dark-background p-8 rounded-lg shadow-lg">
+                    <div class="w-16 h-16 bg-yellow-500/10 rounded-full flex items-center justify-center mb-6">
+                        <i class="fa-brands fa-js text-yellow-500 text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">JavaScript</h3>
+                    <div class="w-full h-2 bg-gray-200 dark:bg-dark-background rounded-full overflow-hidden">
+                        <div class="w-[85%] h-full bg-gradient-to-r from-primary to-secondary rounded-full"></div>
+                    </div>
+                </div>
+
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="py-24 translate-y-4 transition-all duration-500 opacity-0">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">How do I join us?</h2>
+            <p class="text-xl text-gray-600 dark:text-gray-400 text-center mb-16">
+                Find our social networks:
+            </p>
+
+    <!-- Contact -->
+    <section id="contact"
+        class="py-24 bg-gray-50 dark:bg-dark-background-secondary translate-y-4 transition-all duration-500 opacity-0">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Join our group.</h2>
+            <p class="text-xl text-gray-600 dark:text-gray-400 text-center mb-16">
+                @qqbbtg , @officialqb
+            </p>
+
+            <div class="grid grid-cols-1 gap-3">
+                <div class="col-span-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                    <div class="bg-white dark:bg-dark-background p-6 rounded-lg shadow-lg text-center">
+                        <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fa-solid fa-envelope text-primary text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Email</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Coming Soon</p>
+                    </div>
+                    <div class="bg-white dark:bg-dark-background p-6 rounded-lg shadow-lg text-center">
+                        <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fa-solid fa-map-location-dot text-primary text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Location</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Anew city, Turkmenistan.</p>
+                    </div>
+                    <div class="bg-white dark:bg-dark-background p-6 rounded-lg shadow-lg text-center">
+                        <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fa-solid fa-globe text-primary text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Social</h3>
+                        <div class="flex justify-center space-x-4">
+                            <a href="#"
+                                class="w-10 h-10 bg-gray-100 dark:bg-dark-background-secondary rounded-full flex items-center justify-center text-gray-600 hover:text-primary dark:hover:text-primary dark:text-gray-400 transition-all duration-300">
+                                <i class="fa-brands fa-github"></i>
+                            </a>
+                            <a href="#"
+                                class="w-10 h-10 bg-gray-100 dark:bg-dark-background-secondary rounded-full flex items-center justify-center text-gray-600 hover:text-primary dark:hover:text-primary dark:text-gray-400 transition-all duration-300">
+                                <i class="fa-brands fa-telegram"></i>
+                            </a>
+                            <a href="#"
+                                class="w-10 h-10 bg-gray-100 dark:bg-dark-background-secondary rounded-full flex items-center justify-center text-gray-600 hover:text-primary dark:hover:text-primary dark:text-gray-400 transition-all duration-300">
+                                <i class="fa fa-comment"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-white dark:bg-dark-background py-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-8">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <span class="text-xl font-extrabold">Official XD</span>
+                    <span class="text-primary text-3xl ml-1">•</span>
+                </div>
+                <ul class="flex flex-wrap justify-center gap-6 mb-0">
+                    <li>
+                        <a href="#features"
+                            class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">Showcase</a>
+                    </li>
+                    <li>
+                        <a href="#about"
+                            class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">About</a>
+                    </li>
+                    <li>
+                        <a href="#top"
+                            class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">Top</a>
+                    </li>
+                    <li>
+                        <a href="#projects"
+                            class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">Projects</a>
+                    </li>
+                    <li>
+                        <a href="#contact"
+                            class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">Contact</a>
+                    </li>
+                </ul>
+                <div class="flex gap-4">
+                    <a href="#"
+                        class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
+                        <i class="fa-brands fa-github"></i>
+                    </a>
+                    <a href="#"
+                        class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
+                        <i class="fa-brands fa-telegram"></i>
+                    </a>
+                    <a href="#"
+                        class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="text-center text-gray-600 dark:text-gray-400 text-sm">
+                <p>&copy; Powered by afghano.</p>
+            </div>
+        </div>
+
+    </footer>
+
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>
