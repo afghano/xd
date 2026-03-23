@@ -1,0 +1,19 @@
+.snow {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    z-index: 9999999;
+    animation: snowfall 10s linear infinite;
+    box-shadow: 0 0 10px white;
+}
+
+@keyframes snowfall {
+    0% {
+        transform: translateY(-20px);
+    }
+    100% {
+        transform: translateY(100vh);
+    }
+}

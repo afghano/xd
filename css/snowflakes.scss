@@ -1,0 +1,103 @@
+// snowflakes.scss
+// Компонуемый SCSS для эффекта падающих снежинок
+// Настройте переменные ниже и затем скомпилируйте через sass -> css/snowflakes.css
+
+// Параметры
+$total-flakes: 80 !default; // сколько .snow элементов будет поддерживаться (CSS селекторы для nth-child)
+$min-size: 6px !default;
+$max-size: 20px !default;
+$min-duration: 8s !default;
+$max-duration: 28s !default;
+$min-opacity: 0.35 !default;
+$max-opacity: 0.95 !default;
+$snow-color: #ffffff !default;
+$outline-color: rgba(0,0,0,0.06) !default;
+$z-index-snow: 2147483647 !default;
+
+// Немного утилитарных функций
+@function rand($n) {
+  // random() возвращает 1..$n
+  @return random($n);
+}
+
+@function rand-decimal($max, $precision: 4) {
+  // возвращает число 0..$max с плавающей частью
+  $int: random(10000) - 1; // 0..9999
+  $frac: $int / 10000;
+  @return $frac * $max;
+}
+
+body { // чтобы избежать смещения при fixed
+  position: relative;
+}
+
+.snow {
+  position: fixed;
+  top: -30px; // старт всегда чуть выше вьюпорта
+  left: 0;
+  width: var(--snow-size, #{$max-size});
+  height: var(--snow-size, #{$max-size});
+  background: radial-gradient(circle at 30% 30%, $snow-color 0%, lighten($snow-color, 6%) 60%);
+  border-radius: 50%;
+  border: 1px solid $outline-color;
+  pointer-events: none;
+  z-index: $z-index-snow;
+  will-change: transform, opacity;
+}
+
+// Генерация правил для каждого nth-child и keyframes
+@for $i from 1 through $total-flakes {
+  // рандомные параметры (используем целые и дробные части)
+  $rand-x: rand-decimal(100); // vw начальная позиция
+  $rand-offset: rand-decimal(30) - 15; // смещение по x (-15 .. +15 vw)
+  $rand-scale: 0.3 + rand-decimal(0.9); // 0.3 .. 1.2
+  $rand-duration-secs: (floor(rand-decimal( ($max-duration - $min-duration) * 100) ) / 100) + ($min-duration * 1);
+  // SCSS не оперирует прямо с s-суффиксом при арифметике легко; для простоты возьмём секунды как число
+  $rand-duration: (floor(rand-decimal( ($max-duration - $min-duration) * 10) ) / 10) + (strip-unit($min-duration));
+  $rand-delay: -floor(rand-decimal( ($max-duration) * 10)) / 10; // отрицательная задержка
+  $rand-opacity: ($min-opacity + rand-decimal($max-opacity - $min-opacity));
+  $rand-size: ($min-size + rand-decimal(strip-unit($max-size) - strip-unit($min-size))) * 1px;
+  $yoyo-time: (20 + rand-decimal(60)) / 100; // 0.2 .. 0.8 portion
+  $yoyo-vh: $yoyo-time * 100vh;
+
+  .snow:nth-child(#{$i}) {
+    // Inline CSS-переменные для гибкой JS-интеграции и fallback
+    --snow-x: #{$rand-x}vw;
+    --snow-offset: #{$rand-offset}vw;
+    --snow-scale: #{$rand-scale};
+    --snow-duration: #{$rand-duration}s;
+    --snow-delay: #{$rand-delay}s;
+    --snow-opacity: #{$rand-opacity};
+    --snow-size: #{$rand-size};
+
+    // применяем свойства
+    width: var(--snow-size);
+    height: var(--snow-size);
+    opacity: var(--snow-opacity);
+    transform: translate(var(--snow-x), -10px) scale(var(--snow-scale));
+    animation: fall-#{$i} var(--snow-duration) var(--snow-delay) linear infinite;
+  }
+
+  @keyframes fall-#{$i} {
+    #{percentage($yoyo-time)} {
+      transform: translate(calc(var(--snow-x) + var(--snow-offset)), #{$yoyo-vh}) scale(var(--snow-scale));
+    }
+    to {
+      transform: translate(calc(var(--snow-x) + (var(--snow-offset) / 2)), 100vh) scale(var(--snow-scale));
+    }
+  }
+}
+
+// Accessibility: respect reduced motion
+@media (prefers-reduced-motion: reduce) {
+  .snow {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+// Инструкция для разработчика (в комментарии):
+// 1) Скомпилируйте: sass css/snowflakes.scss css/snowflakes.css --style compressed
+// 2) Подключите в HTML: <link rel="stylesheet" href="css/snowflakes.css">
+// 3) В HTML: создайте N элементов <div class="snow"></div> (N <= $total-flakes)
+// 4) Дополнительно JS может устанавливать CSS-переменные --snow-x/--snow-offset/... для динамики
